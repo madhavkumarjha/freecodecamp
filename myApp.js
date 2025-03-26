@@ -1,6 +1,9 @@
 let express = require('express');
 let app = express();
+const bodyParser = require("body-parser");
 require("dotenv").config();
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 absolutePath = __dirname + '/views/index.html'
 
@@ -26,10 +29,12 @@ app.use("/public", express.static(__dirname + "/public"))
 //     next(); // Ensure the request proceeds to the next middleware/route
 // });
 
-// // Example route
+/**JSON format */
 // app.get("/json", (req, res) => {
 //     res.json({ message: "Hello json" });
 // });
+
+
 
 // app.get('/now', function(req, res, next) {
 //     req.time = new Date().toString();  // Hypothetical synchronous operation
@@ -44,12 +49,20 @@ app.use("/public", express.static(__dirname + "/public"))
 //     res.json({ echo: req.params.word });
 // })
 
-const path = "/name"
+
 /**request.query */
-app.get(path, function (req, res) {
-    const { first, last } = req.query;
-    res.json({ name: `${first} ${last}` })
-})
+// app.get("/name", function (req, res) {
+//     const { first, last } = req.query;
+//     res.json({ name: `${first} ${last}` })
+// })
+
+/**body-parser encoded */
+app.post("/name", function (req, res) {
+    const { first, last } = req.body; // Extract from request body
+    res.json({ name: `${first} ${last}` });
+});
+
+
 
 // console.log("Hello World");
 
